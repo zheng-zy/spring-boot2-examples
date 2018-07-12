@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration> <!-- 默认的一些设置 -->
+    <springProperty scope="context" name="logLevel" source="log.level"/>
+    <springProperty scope="context" name="logPath" source="log.path"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/> <!-- 日志文件变量 -->
+    <property name="LOG_FILE"
+              value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/> <!-- 控台配置 -->
+    <!--<include resource="org/springframework/boot/logging/logback/file-appender.xml"/> &lt;!&ndash; 文件配置 &ndash;&gt;-->
+    <!--文件输出-->
+    <appender name="F" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Append>true</Append>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <!--<pattern>%p|%d{yyyy-MM-dd HH:mm:ss.SSS}|%thread|%c|%m%n</pattern>-->
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+    <include resource="mail-appender.xml"/><!-- 邮件配置 -->
+
+    <root level="${logLevel}">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="F"/>
+        <!--<appender-ref ref="MAIL"/>-->
+    </root>
+
+    <logger name="com.example.config.WebLogAspect" level="INFO" additivity="false">
+        <!--<appender-ref ref="F" />-->
+        <appender-ref ref="MAIL"/>
+    </logger>
+</configuration>

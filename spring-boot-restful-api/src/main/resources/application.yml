@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: test
+---
+spring:
+  profiles: test
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/test?useSSL=false
+    username: root
+    password: 666666
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    database: 0
+    host: 192.168.97.57
+    port: 6379
+    password: 666666
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+# https://github.com/abel533/MyBatis-Spring-Boot
+mybatis:
+    type-aliases-package: com.example.entity
+    mapper-locations: classpath:mapper/*.xml
+mapper:
+    mappers:
+        - com.example.util.MyMapper
+    not-empty: false
+    identity: MYSQL
+pagehelper:
+    helperDialect: mysql
+    reasonable: true # 加参数查询需要去除，参考https://www.imooc.com/article/27778
+    supportMethodsArguments: true
+    params: count=countSql
+log:
+  level: info
+  path: /data/
