@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -26,15 +27,17 @@ public class WebLogAspect {
 
     private static final Logger log = LoggerFactory.getLogger(WebLogAspect.class);
 
+    @Value("${spring.application.name}")
+    private String appName;
+
     @Pointcut("execution(public * com.example.controller..*.*(..))")
     public void webLog() {
     }
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
-        log.info("doBefore");
         LogResult logResult = new LogResult();
-        logResult.setProject("spring-boot-restful-api");
+        logResult.setProject(appName);
 
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

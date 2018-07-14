@@ -29,6 +29,10 @@ public class Result {
         return new Result(-1, errorMsg, null);
     }
 
+    public static Result fail(int code, String errorMsg){
+        return new Result(code, errorMsg, null);
+    }
+
     private int code;
     private String msg;
     private Object data;

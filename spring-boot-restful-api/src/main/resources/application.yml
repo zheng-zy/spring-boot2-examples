@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: restful-api
   profiles:
     active: test
 ---
