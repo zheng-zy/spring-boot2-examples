@@ -7,6 +7,31 @@
               value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/> <!-- 控台配置 -->
     <!--<include resource="org/springframework/boot/logging/logback/file-appender.xml"/> &lt;!&ndash; 文件配置 &ndash;&gt;-->
+
+    <property name="smtpHost" value="smtp.163.com"/>
+    <property name="smtpPort" value="465"/>
+    <property name="mailFrom" value="sumonian@163.com"/>
+    <property name="username" value="sumonian@163.com"/>
+    <property name="mailTo" value="sumonian@163.com"/>
+    <property name="password" value="#"/>
+    <property name="SSL" value="true"/>
+    <property name="mailSubject" value="系统异常"/>
+    <appender name="MAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+        <smtpHost>${smtpHost}</smtpHost>
+        <smtpPort>${smtpPort}</smtpPort>
+        <username>${username}</username>
+        <password>${password}</password>
+        <SSL>${SSL}</SSL>
+        <asynchronousSending>false</asynchronousSending>
+        <to>${mailTo}</to>
+        <from>${mailFrom}</from>
+        <subject>${mailSubject}</subject>
+        <layout class="ch.qos.logback.classic.html.HTMLLayout"/>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
     <!--文件输出-->
     <appender name="F" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Append>true</Append>
@@ -22,8 +47,6 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
-    <include resource="mail-appender.xml"/><!-- 邮件配置 -->
-
     <root level="${logLevel}">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="F"/>
@@ -33,5 +56,11 @@
     <logger name="com.example.config.WebLogAspect" level="INFO" additivity="false">
         <!--<appender-ref ref="F" />-->
         <appender-ref ref="MAIL"/>
+    </logger>
+
+    <logger name="com.example.SpringBootRestfulApiApplicationTests" level="INFO" additivity="false">
+        <!--<appender-ref ref="F" />-->
+        <appender-ref ref="MAIL"/>
+        <appender-ref ref="CONSOLE"/>
     </logger>
 </configuration>
