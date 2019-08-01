@@ -1,5 +1,6 @@
 package com.zzy;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -22,16 +23,35 @@ public class ConfigController {
     @Resource
     private RedisProperties redisProperties;
     @Resource
-    private DataSourceProperties  dataSourceProperties;
-
+    private DataSourceProperties dataSourceProperties;
+    @Resource
+    private CommonConf commonConf;
+//    @Resource
+//    private CommonDataDAO commonDataDAO;
+//    @Resource
+//    private CommonDAO commonDAO;
+//
+//
+//    @RequestMapping("test")
+//    public Map<String, Object> test() {
+//        System.out.println("commonDAO.getMp3SongId() = " + commonDAO.getMp3SongId().size());
+//        System.out.println("CommonDataDAO.getFilterCompany() = " + commonDataDAO.getFilterCompany().size());
+//        return ImmutableMap.of("host", redisProperties.getHost(), "password", redisProperties.getPassword());
+//    }
     @RequestMapping("getRedisConfig")
     public Map<String, Object> getRedisConfig() {
-        return ImmutableMap.of("host", redisProperties.getHost(),"password", redisProperties.getPassword());
+        return ImmutableMap.of("host", redisProperties.getHost(), "password", redisProperties.getPassword());
+    }
+
+    @RequestMapping("getBlackCompany")
+    public Map<String, Object> getBlackCompany() {
+        return ImmutableMap.of("config", commonConf.getBlackCompany());
     }
 
     @RequestMapping("getDatasourceConfig")
     public Map<String, Object> getDatasourceConfig() {
-        return ImmutableMap.of("username", dataSourceProperties.getUsername(),"password", dataSourceProperties.getPassword());
+        System.out.println("redisProperties = " + JSON.toJSONString(dataSourceProperties));
+        return ImmutableMap.of("username", dataSourceProperties.getUsername(), "password", dataSourceProperties.getPassword());
     }
 
 }

@@ -32,6 +32,8 @@ public class UserController {
         log.info("db:{}", user.toString());
         user = userRepository.save(user);
         log.info("userId:{}", user.getUserId());
+        user = userRepository.save(user);
+        log.info("userId:{}", user.getUserId());
         return ImmutableBiMap.of("code", 0, "db", user);
     }
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "classpath:/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzy.dao.dbcenter.CommonDAO">
+
+    <!--二级缓存设置 5分钟刷新一次 -->
+    <!-- <cache eviction="FIFO" flushInterval="300000" size="1048576" readOnly="true" /> -->
+
+    <select id="getSongsterList" resultType="string">
+        select CONCAT(SongsterID,"||",SongsterName,"||",SongsterPy,"||",SongsterTypeID,"||",AppPlayNum) as line from
+        kmdbcenter.km_tbl_songster order by SongsterID limit #{page},#{pageSize}
+    </select>
+
+
+    <select id="getSong" resultType="map">
+        select * from kmdbcenter.km_tbl_song
+    </select>
+
+    <select id="getMp3SongId" resultType="string">
+        select SongID from kmdbcenter.km_tbl_soundaccuracy_mp3
+    </select>
+
+
+    <select id="getTsSongId" resultType="string">
+        <![CDATA[select SongID from kmdbcenter.km_tbl_songfiledetail_ts where TsUrl is not null and TsUrl<>'']]>
+    </select>
+
+    <select id="getSongfileDetailTs" resultType="map">
+        <![CDATA[
+        select a.SongID,concat(a.MediaType,'||',a.DefaultVolume,'||',a.SongID,'||',a.SongFileName,'||',b.SongName,'||',b.SongPy,'||',b.SongWord,'||',b.SongType,'||',b.LanguageType,'||',
+        b.songsterName,'||',a.OriginalTrack,'||',a.AccompanyTrack,'||',b.LanguageTypeID,'||',b.LanguageTypeID2,'||',b.LanguageTypeID3,'||',b.LanguageTypeID4,'||',
+        b.SongsterID1,'||',b.SongsterID2,'||',b.SongsterID3,'||',b.SongsterID4,'||',b.SongTypeID1,'||',b.SongTypeID2,'||',b.SongTypeID3,'||',b.SongTypeID4,'||',a.SongNameWordType,'||',
+        a.VolumeBalance,'||',a.VolumeQuality,'||',a.ImageQuality,'||',a.SongVersion,'||',a.TotalQuality,'||',b.GroupSongID,'||',b.AppPlayNum,'||',1,'||',2) as line
+        from kmdbcenter.km_tbl_songfiledetail_ts a
+        LEFT JOIN kmdbcenter.km_tbl_song b on a.SongID = b.SongID
+        where a.TsUrl is not NULL and a.TsUrl <> ''
+        ]]>
+    </select>
+
+    <select id="getSongfileDetailMp3" resultType="map">
+        select a.SongID,concat(c.MediaType,'||',c.DefaultVolume,'||',a.SongID,'||',c.SongFileName,'||',b.SongName,'||',b.SongPy,'||',b.SongWord,'||',b.SongType,'||',b.LanguageType,'||',
+        b.songsterName,'||',c.OriginalTrack,'||',c.AccompanyTrack,'||',b.LanguageTypeID,'||',b.LanguageTypeID2,'||',b.LanguageTypeID3,'||',b.LanguageTypeID4,'||',
+        b.SongsterID1,'||',b.SongsterID2,'||',b.SongsterID3,'||',b.SongsterID4,'||',b.SongTypeID1,'||',b.SongTypeID2,'||',b.SongTypeID3,'||',b.SongTypeID4,'||',c.SongNameWordType,'||',
+        c.VolumeBalance,'||',c.VolumeQuality,'||',c.ImageQuality,'||',c.SongVersion,'||',c.TotalQuality,'||',b.GroupSongID,'||',b.AppPlayNum,'||',1,'||',1) as line
+        from kmdbcenter.km_tbl_soundaccuracy_mp3 a
+        LEFT JOIN kmdbcenter.km_tbl_song b on a.SongID = b.SongID
+        LEFT JOIN kmdbcenter.km_tbl_songfiledetail_mp3 c on a.SongID=c.SongID;
+    </select>
+
+</mapper>
+

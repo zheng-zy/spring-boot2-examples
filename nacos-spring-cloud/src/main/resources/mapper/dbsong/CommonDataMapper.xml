@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "classpath:/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzy.dao.dbsong.CommonDataDAO">
+
+    <!--二级缓存设置 5分钟刷新一次 -->
+    <!-- <cache eviction="FIFO" flushInterval="300000" size="1048576" readOnly="true" /> -->
+
+    <insert id="saveSongFile">
+        insert into kmsong.km_tbl_songfile(file_id, file_name, file_md5, file_type, request_count, company_code,
+        create_time, update_time) values(#{fileId}, #{fileName}, #{fileMd5}, #{fileType}, #{requestCount},
+        #{companyCode}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updateSongFileMd5">
+        update kmsong.km_tbl_songfile set update_time=#{updateTime}
+        <if test="fileMd5 != null">
+            ,file_md5=#{fileMd5}
+        </if>
+        <if test="requestCount != null">
+            ,request_count=#{requestCount}
+        </if>
+        where id=#{id}
+    </update>
+
+    <select id="getSongFileById">
+        select file_id as fileId, file_name as fileName, file_md5 as fileMd5, file_type as fileType,
+        request_count as requestCount, company_code as companyCode, create_time as createTime,
+        update_time as updateTime from kmsong.km_tbl_songfile where id=#{id}
+    </select>
+
+    <select id="getByFileTypeAndCompanyCode" resultType="com.zzy.entity.SongFile">
+        select id, file_id as fileId, file_name as fileName, file_md5 as fileMd5, file_type as fileType,
+        request_count as requestCount, company_code as companyCode, create_time as createTime,
+        update_time as updateTime from kmsong.km_tbl_songfile where file_type=#{fileType} and company_code = #{companyCode}
+    </select>
+
+    <select id="getByFileName" resultType="com.zzy.entity.SongFile">
+        select id, file_id as fileId, file_name as fileName, file_md5 as fileMd5, file_type as fileType,
+        request_count as requestCount, company_code as companyCode, create_time as createTime,
+        update_time as updateTime from kmsong.km_tbl_songfile
+        where file_name=#{fileName} and company_code = #{companyCode} order by id desc limit 1
+    </select>
+
+    <select id="getFilterSong" resultType="string">
+        select FilterValue from kmsong.km_tbl_companysongfilter_song where CompanyCode = #{companyCode} and FilterType = #{filterType};
+    </select>
+
+    <select id="getFilterCompany" resultType="string">
+        <![CDATA[
+        select CompanyCode from kmsong.km_tbl_companysongfilter_song where CompanyCode<> '-1' and (FilterType = "SongID" or FilterType='SongsterID') GROUP BY CompanyCode;
+        ]]>
+    </select>
+
+    <select id="getSongFile" resultType="com.zzy.entity.SongFile">
+        select id, file_id as fileId, file_name as fileName, file_md5 as fileMd5, file_type as fileType,
+        request_count as requestCount, company_code as companyCode, create_time as createTime,
+        update_time as updateTime
+        from kmsong.km_tbl_songfile where company_code=#{companyCode} and file_type=4 order by id desc limit 1
+    </select>
+
+</mapper>
+
