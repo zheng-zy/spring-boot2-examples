@@ -77,7 +77,7 @@ public class ActiveRecordPluginConfig {
         StatFilter statFilter = new StatFilter();
         statFilter.setMergeSql(true);
         statFilter.setLogSlowSql(true);
-        statFilter.setSlowSqlMillis(Duration.ofMillis(20).toMillis());
+        statFilter.setSlowSqlMillis(Duration.ofMillis(1).toMillis());
         druidPlugin.addFilter(statFilter);
         // 配置日志输出
         Slf4jLogFilter logFilter = new Slf4jLogFilter();
