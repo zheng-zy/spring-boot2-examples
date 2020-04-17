@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>dataway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot2-dataway</name>
     <description>数据查询接口</description>
