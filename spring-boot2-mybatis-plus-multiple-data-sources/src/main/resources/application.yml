@@ -1,0 +1,70 @@
+spring:
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        loginUsername: admin
+        loginPassword: 123456
+    dynamic:
+      p6spy: false
+      # 配置Druid全局默认值
+      druid:
+        initial-size: 5
+        max-active: 8
+        min-idle: 3
+        max-wait: 1000
+        validation-query: 'select 1'
+        # 以下是全局默认值，可以全局更改
+      #        initial-size:
+      #        max-active:
+      #        min-idle:
+      #        max-wait: 1000
+      #        validation-query: 'select 1'
+      #        time-between-eviction-runs-millis:
+      #        time-between-log-stats-millis:
+      #        stat-sqlmax-size:
+      #        min-evictable-idle-time-millis:
+      #        max-evictable-idle-time-millis:
+      #        test-while-idle:
+      #        test-on-borrow:
+      #        test-on-return:
+      #        validation-query-timeout:
+      #        use-global-datasource-stat:
+      #        async-init:
+      #        clear-filters-enable:
+      #        reset-stat-enable:
+      #        not-full-timeout-retry-count:
+      #        max-wait-thread-count:
+      #        fail-fast:
+      #        phyTimeout-millis:
+      #        keep-alive:
+      #        pool-prepared-statements:
+      #        init-variants:
+      #        init-global-variants:
+      #        use-unfair-lock:
+      #        kill-when-socket-read-timeout:
+      #        connection-properties:
+      #        max-pool-prepared-statement-per-connection-size:
+      #        init-connection-sqls:
+      #        share-prepared-statements:
+      #        connection-errorretry-attempts:
+      #        break-after-acquire-failure:
+      #        filters: stat,wall # 注意这个值和druid原生不一致，默认启动了stat,wall
+      datasource:
+        master_db97215:
+          username: root
+          password: ""
+          url: jdbc:mysql://192.168.97.215:3306/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          schema: db/schema.sql
+        db97147:
+          username: root
+          password: ""
+          url: jdbc:mysql://192.168.97.147:3306/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          druid:
+            initial-size: 6
+logging:
+  level:
+    com.baomidou: debug
+    com.example.mapper: debug
