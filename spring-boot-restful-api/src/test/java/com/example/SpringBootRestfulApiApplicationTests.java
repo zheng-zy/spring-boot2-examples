@@ -1,7 +1,10 @@
 package com.example;
 
+import com.alibaba.fastjson.JSON;
 import com.example.dao.SysRoleMapper;
+import com.example.dao.SysUserMapper;
 import com.example.entity.SysRole;
+import com.example.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +21,8 @@ public class SpringBootRestfulApiApplicationTests {
 
 	@Resource
 	private SysRoleMapper sysRoleMapper;
+	@Resource
+	private SysUserMapper sysUserMapper;
 
 	@Test
 	public void contextLoads() {
@@ -34,6 +39,12 @@ public class SpringBootRestfulApiApplicationTests {
 	public void testSendMail(){
 		Exception e = new Exception("哈哈我错了");
 		log.error("错误", e);
+	}
+
+	@Test
+	public void testGetOne(){
+		SysUser sysUser = sysUserMapper.selectByPrimaryKey(1);
+		System.out.println(JSON.toJSONString(sysUser));
 	}
 
 }

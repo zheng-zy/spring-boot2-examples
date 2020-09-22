@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
 
-        return userMapper.selectByPrimaryKey(userId);
+        return userMapper.selectByPrimaryKey(Integer.parseInt(userId));
     }
 
     @Override
