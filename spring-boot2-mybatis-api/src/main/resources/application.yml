@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        loginUsername: admin
+        loginPassword: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.96.41:3306/kmsms?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+      username: root
+      password: ''
+
+logging:
+  level:
+    com.baomidou: debug
+    com.example.mapper: debug
